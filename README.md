@@ -11,7 +11,7 @@ O fluxo automatizado monitora periodicamente a disponibilidade do banco de dados
 
 ## 🖥️ Protótipo
 
-- Veja o diagrama do fluxo automatizado em /docs/prototipo.png
+- Veja o diagrama do fluxo automatizado em em /docs/prototipo.svg
 - O protótipo foi construído na plataforma Make (ex-Integromat)
 - Como funciona:
 Um agendador (Schedule) aciona o fluxo a cada 5 minutos.

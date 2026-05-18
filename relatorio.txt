@@ -1,0 +1,55 @@
+RELATÓRIO DO PROJETO – MÓDULO 3
+Low Code / No Code / Vibecode
+========================================
+
+Disciplina: Projeto Módulo 3
+Professor(a): Kadidja Valéria
+Data: 11/05/2026
+Local: Laboratório de informática / Quadro branco
+
+----------------------------------------
+TEMA: Falhas de Conexão com Banco de Dados
+PLATAFORMA: Make (ex-Integromat)
+----------------------------------------
+
+DESCRIÇÃO DO PROJETO
+O grupo desenvolveu um protótipo de automação utilizando o Make
+para detectar, notificar e tentar a recuperação automática de
+falhas de conexão com bancos de dados, sem necessidade de
+escrever código.
+
+FLUXO IMPLEMENTADO
+1. Agendador (Schedule) – dispara a cada 5 minutos
+2. HTTP Request – testa a conexão com o banco de dados
+3. Router – avalia o resultado da tentativa de conexão
+   - Sucesso → Registra log no Google Sheets
+   - Falha   → Envia e-mail de alerta à equipe
+4. Sleep (30s) – aguarda antes de tentar reconexão
+5. HTTP Request (Reconexão) – segunda tentativa
+6. Router – avalia a reconexão
+   - Reconectou → Registra recuperação no Sheets
+   - Falhou     → Envia e-mail de escalonamento ao responsável
+
+VANTAGENS IDENTIFICADAS
+- Prototipagem rápida (montagem em menos de 2 horas)
+- Integração simples com Gmail e Google Sheets
+- Automação contínua sem intervenção manual
+- Interface visual acessível a não-programadores
+- Plano gratuito suficiente para o protótipo
+
+LIMITAÇÕES ENCONTRADAS
+- Customização limitada para lógicas complexas de retry
+- Dependência dos servidores do Make
+- Risco de lock-in tecnológico (formato proprietário)
+- Limite de operações no plano gratuito
+
+PRÓXIMOS PASSOS
+- Integrar com Slack para notificações em tempo real
+- Criar dashboard de monitoramento no Google Sheets
+- Expandir para múltiplos bancos de dados
+- Integrar IA para diagnóstico automático de falhas
+
+========================================
+Consulte o README.md para detalhes completos.
+Diagrama do fluxo disponível em /docs/prototipo.svg
+========================================

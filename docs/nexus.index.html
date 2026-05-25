@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus — IA de Resiliência</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f9f9f7;
+    color: #1a1a18;
+  }
+
+  /* NAV */
+  nav {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e4;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+  }
+
+  .logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #534AB7;
+  }
+
+  .nav-links { display: flex; gap: 24px; list-style: none; }
+  .nav-links a { text-decoration: none; color: #555; font-size: 14px; }
+  .nav-links a:hover { color: #534AB7; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #534AB7 0%, #1D9E75 100%);
+    color: white;
+    padding: 80px 32px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .hero p {
+    font-size: 17px;
+    opacity: 0.9;
+    max-width: 560px;
+    margin: 0 auto 32px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .hero-btn {
+    background: white;
+    color: #534AB7;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+
+  .hero-btn:hover { transform: translateY(-2px); }
+
+  /* STATS */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    padding: 40px 32px;
+    background: white;
+    border-bottom: 1px solid #e8e8e4;
+    flex-wrap: wrap;
+  }
+
+  .stat { text-align: center; }
+  .stat-num { font-size: 28px; font-weight: 700; color: #534AB7; }
+  .stat-label { font-size: 13px; color: #888; margin-top: 4px; }
+
+  /* SECTIONS */
+  .section { padding: 64px 32px; max-width: 1100px; margin: 0 auto; }
+  .section-title { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+  .section-sub { font-size: 15px; color: #666; margin-bottom: 40px; line-height: 1.7; }
+
+  /* PROBLEMA */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .card {
+    background: white;
+    border: 1px solid #e8e8e4;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .card-icon { font-size: 28px; margin-bottom: 12px; }
+  .card-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .card-desc { font-size: 14px; color: #666; line-height: 1.7; }
+
+  /* SOLUÇÃO */
+  .solution-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .strategy {
+    display: flex;
+    gap: 14px;
+    padding: 18px;
+    background: white;
+    border: 1px solid #e8e8e4;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+
+  .strategy-num {
+    font-size: 12px;
+    color: #aaa;
+    font-weight: 600;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  .strategy-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .strategy-desc { font-size: 13px; color: #666; line-height: 1.6; }
+
+  .ia-card {
+    background: white;
+    border: 1px solid #e8e8e4;
+    border-radius: 12px;
+    padding: 24px;
+    border-top: 3px solid #534AB7;
+  }
+
+  .ia-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #534AB7; }
+
+  .ia-prop { margin-bottom: 12px; }
+  .ia-prop-label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+  .ia-prop-value { font-size: 13px; color: #333; }
+
+  /* PERFIS */
+  .perfis-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .perfil {
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid transparent;
+  }
+
+  .perfil.purple { background: #EEEDFE; border-color: rgba(83,74,183,0.2); }
+  .perfil.teal { background: #E1F5EE; border-color: rgba(29,158,117,0.2); }
+  .perfil.coral { background: #FAECE7; border-color: rgba(216,90,48,0.2); }
+
+  .perfil-icon { font-size: 24px; margin-bottom: 10px; }
+  .perfil-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .perfil.purple .perfil-title { color: #3C3489; }
+  .perfil.teal .perfil-title { color: #085041; }
+  .perfil.coral .perfil-title { color: #712B13; }
+
+  .perfil-desc { font-size: 13px; line-height: 1.6; color: #555; margin-bottom: 12px; }
+
+  .tela-item { font-size: 12px; color: #888; margin-bottom: 4px; }
+  .tela-item::before { content: '→ '; }
+
+  /* PROTÓTIPO */
+  .proto-wrapper {
+    background: #f0f0ec;
+    border-radius: 16px;
+    padding: 40px 32px;
+    margin: 0 32px 64px;
+  }
+
+  .proto-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background: white;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active { background: #534AB7; color: white; border-color: #534AB7; }
+  .tab-btn.active-teal { background: #1D9E75; color: white; border-color: #1D9E75; }
+  .tab-btn.active-coral { background: #D85A30; color: white; border-color: #D85A30; }
+
+  .phones-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* PHONE */
+  .phone {
+    width: 210px;
+    background: white;
+    border-radius: 24px;
+    border: 1.5px solid #ddd;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .phone-bar {
+    background: #f5f5f3;
+    padding: 8px 12px 5px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #888;
+  }
+
+  .phone-bar-title { font-size: 10px; font-weight: 600; color: #333; }
+
+  .phone-content { padding: 10px 11px; }
+
+  .ph-header { padding-bottom: 8px; border-bottom: 1px solid #f0f0ec; margin-bottom: 8px; }
+  .ph-title { font-size: 13px; font-weight: 600; }
+  .ph-sub { font-size: 10px; color: #aaa; }
+
+  .ph-chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .ph-dot { width: 5px; height: 5px; border-radius: 50%; }
+
+  .ph-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+
+  .ph-metric {
+    background: #f5f5f3;
+    border-radius: 7px;
+    padding: 6px 8px;
+  }
+
+  .ph-metric-label { font-size: 8px; color: #aaa; margin-bottom: 2px; }
+  .ph-metric-value { font-size: 16px; font-weight: 700; }
+
+  .ph-label { font-size: 8px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+
+  .ph-event {
+    display: flex;
+    gap: 6px;
+    padding: 5px 0;
+    border-bottom: 1px solid #f5f5f3;
+  }
+
+  .ph-event-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .ph-event-main { font-size: 9px; font-weight: 500; margin-bottom: 1px; }
+  .ph-event-sub { font-size: 8px; color: #aaa; }
+
+  .ph-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #f5f5f3; font-size: 9px; }
+  .ph-row-key { color: #888; }
+  .ph-row-val { font-weight: 500; }
+
+  .ph-log {
+    background: #f5f5f3;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 8px;
+    color: #666;
+    line-height: 1.8;
+    font-family: monospace;
+    margin-top: 6px;
+  }
+
+  .ph-nav {
+    background: #f5f5f3;
+    border-top: 1px solid #e8e8e4;
+    padding: 5px 0 3px;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .ph-nav-item { display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 8px; color: #aaa; }
+
+  .ph-progress { background: #eee; border-radius: 3px; height: 4px; margin: 3px 0; overflow: hidden; }
+  .ph-progress-fill { height: 100%; border-radius: 3px; }
+
+  .ph-badge { display: inline-block; font-size: 7px; padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+
+  .ph-step { display: flex; gap: 7px; margin-bottom: 7px; }
+  .ph-step-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .ph-step-label { font-size: 9px; font-weight: 500; }
+  .ph-step-sub { font-size: 8px; color: #aaa; }
+
+  /* ARQUITETURA */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .arch-card {
+    background: white;
+    border: 1px solid #e8e8e4;
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .arch-num { font-size: 11px; color: #aaa; font-weight: 600; margin-bottom: 6px; }
+  .arch-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .arch-desc { font-size: 13px; color: #666; line-height: 1.7; }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid #e8e8e4; }
+
+  /* FOOTER */
+  footer {
+    background: #1a1a18;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 40px 32px;
+  }
+
+  .footer-logo { font-size: 20px; font-weight: 700; color: white; margin-bottom: 6px; }
+  .footer-sub { font-size: 13px; margin-bottom: 20px; }
+  .footer-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .footer-tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); }
+
+  @media (max-width: 700px) {
+    .cards-grid, .solution-grid, .perfis-grid, .arch-grid { grid-template-columns: 1fr; }
+    .stats { gap: 24px; }
+    .proto-wrapper { margin: 0 16px 48px; padding: 24px 16px; }
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 60px 20px; }
+    .hero h1 { font-size: 30px; }
+    .section { padding: 48px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">● Nexus</div>
+  <ul class="nav-links">
+    <li><a href="#problema">Problema</a></li>
+    <li><a href="#solucao">Solução</a></li>
+    <li><a href="#prototipo">Protótipo</a></li>
+    <li><a href="#arquitetura">Arquitetura</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Nexus<br>IA de Resiliência em BD</h1>
+  <p>Uma inteligência artificial que age automaticamente quando seu banco de dados falha — sem expor erros ao usuário final.</p>
+  <a href="#prototipo" class="hero-btn">Ver protótipo →</a>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">94%</div><div class="stat-label">Resoluções automáticas</div></div>
+  <div class="stat"><div class="stat-num">&lt;1s</div><div class="stat-label">Tempo de failover</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Perfis de usuário</div></div>
+  <div class="stat"><div class="stat-num">0</div><div class="stat-label">Erros visíveis ao usuário</div></div>
+</div>
+
+<!-- PROBLEMA -->
+<section id="problema" class="section">
+  <h2 class="section-title">O problema</h2>
+  <p class="section-sub">Falhas de conexão com banco de dados são frequentes em sistemas modernos e causam impacto direto na experiência do usuário e na produtividade das equipes técnicas.</p>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon">💥</div>
+      <p class="card-title">Erros expostos ao usuário</p>
+      <p class="card-desc">Mensagens técnicas aparecem na tela, causando confusão e perda de confiança na plataforma.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⏱</div>
+      <p class="card-title">Tempo de inatividade alto</p>
+      <p class="card-desc">Sem recuperação automática, equipes precisam intervir manualmente — levando minutos ou horas.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <p class="card-title">Retry sem controle</p>
+      <p class="card-desc">Tentativas repetidas sem inteligência sobrecarregam ainda mais o banco já em dificuldades.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <p class="card-title">Falta de visibilidade</p>
+      <p class="card-desc">DBAs e devs não têm uma visão clara do que está acontecendo em tempo real.</p>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- SOLUÇÃO -->
+<section id="solucao" class="section">
+  <h2 class="section-title">A solução — Nexus</h2>
+  <p class="section-sub">O Nexus é uma IA que orquestra estratégias de resiliência de forma dinâmica, escolhendo a melhor resposta para cada tipo de falha com base no contexto e no histórico.</p>
+  <div class="solution-grid">
+    <div>
+      <div class="strategy">
+        <span class="strategy-num">01</span>
+        <div>
+          <p class="strategy-title">Retry com Exponential Backoff</p>
+          <p class="strategy-desc">Tenta reconectar com intervalos crescentes (1s → 2s → 4s), evitando sobrecarregar o banco.</p>
+        </div>
+      </div>
+      <div class="strategy">
+        <span class="strategy-num">02</span>
+        <div>
+          <p class="strategy-title">Circuit Breaker</p>
+          <p class="strategy-desc">Interrompe tentativas quando as falhas ultrapassam um limiar, protegendo o sistema.</p>
+        </div>
+      </div>
+      <div class="strategy">
+        <span class="strategy-num">03</span>
+        <div>
+          <p class="strategy-title">Failover Automático</p>
+          <p class="strategy-desc">Redireciona conexões para banco secundário em menos de 1 segundo, sem intervenção humana.</p>
+        </div>
+      </div>
+      <div class="strategy">
+        <span class="strategy-num">04</span>
+        <div>
+          <p class="strategy-title">Aprendizado Contínuo</p>
+          <p class="strategy-desc">Ajusta parâmetros automaticamente com base no histórico de cada banco de dados.</p>
+        </div>
+      </div>
+    </div>
+    <div class="ia-card">
+      <h3>🧠 Nexus — ficha da IA</h3>
+      <div class="ia-prop"><p class="ia-prop-label">Função</p><p class="ia-prop-value">Orquestração dinâmica de estratégias de resiliência</p></div>
+      <div class="ia-prop"><p class="ia-prop-label">Personalidade</p><p class="ia-prop-value">Técnica, precisa e proativa</p></div>
+      <div class="ia-prop"><p class="ia-prop-label">Plataforma</p><p class="ia-prop-value">Mobile iOS</p></div>
+      <div class="ia-prop"><p class="ia-prop-label">Perfis atendidos</p><p class="ia-prop-value">DBA/DevOps, Desenvolvedor, Usuário Final</p></div>
+      <div class="ia-prop"><p class="ia-prop-label">Limitações</p><p class="ia-prop-value">Não atua em falhas de hardware ou autenticação</p></div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- PERFIS -->
+<section class="section">
+  <h2 class="section-title">Três perfis de usuário</h2>
+  <p class="section-sub">O Nexus adapta a interface e a linguagem para cada tipo de usuário — do técnico especialista ao usuário comum.</p>
+  <div class="perfis-grid">
+    <div class="perfil purple">
+      <div class="perfil-icon">🔧</div>
+      <p class="perfil-title">DBA / DevOps</p>
+      <p class="perfil-desc">Visão técnica completa com logs, métricas em tempo real e controle dos parâmetros da IA.</p>
+      <div class="tela-item">Dashboard de falhas</div>
+      <div class="tela-item">Detalhes da falha</div>
+      <div class="tela-item">Configurar Nexus</div>
+      <div class="tela-item">Relatórios e insights</div>
+    </div>
+    <div class="perfil teal">
+      <div class="perfil-icon">💻</div>
+      <p class="perfil-title">Desenvolvedor</p>
+      <p class="perfil-desc">Foco na integração com simulador de falhas e logs de decisão explicados em linguagem clara.</p>
+      <div class="tela-item">Status de integração</div>
+      <div class="tela-item">Monitor de estratégias</div>
+      <div class="tela-item">Simulador de falhas</div>
+      <div class="tela-item">Logs de decisão</div>
+    </div>
+    <div class="perfil coral">
+      <div class="perfil-icon">👤</div>
+      <p class="perfil-title">Usuário Final</p>
+      <p class="perfil-desc">Zero jargão técnico. Mensagens humanas e acompanhamento visual da resolução.</p>
+      <div class="tela-item">Aviso de instabilidade</div>
+      <div class="tela-item">Tentando reconectar</div>
+      <div class="tela-item">Conexão restaurada</div>
+      <div class="tela-item">Falha persistente</div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- PROTÓTIPO -->
+<section id="prototipo" class="section" style="padding-bottom: 24px;">
+  <h2 class="section-title">Protótipo navegável</h2>
+  <p class="section-sub">Explore as telas do Nexus para cada perfil de usuário.</p>
+</section>
+
+<div class="proto-wrapper">
+  <div class="proto-tabs">
+    <button class="tab-btn active" onclick="showTab('dba', this)">🔧 DBA / DevOps</button>
+    <button class="tab-btn" onclick="showTab('dev', this)">💻 Desenvolvedor</button>
+    <button class="tab-btn" onclick="showTab('user', this)">👤 Usuário Final</button>
+  </div>
+
+  <!-- DBA -->
+  <div id="tab-dba" class="phones-row">
+    <!-- Dashboard -->
+    <div class="phone">
+      <div class="phone-bar"><span>9:41</span><span class="phone-bar-title">Nexus</span><span>▲</span></div>
+      <div class="phone-content">
+        <div class="ph-header"><p class="ph-title">Dashboard de falhas</p><p class="ph-sub">Atualizado agora</p></div>
+        <div class="ph-chip" style="background:#EEEDFE;">
+          <div class="ph-dot" style="background:#534AB7;"></div>
+          <span style="color:#3C3489;">Nexus ativo — 3 estratégias</span>
+        </div>
+        <div class="ph-metrics">
+          <div class="ph-metric"><p class="ph-metric-label">Falhas hoje</p><p class="ph-metric-value" style="color:#A32D2D;">14</p></div>
+          <div class="ph-metric"><p class="ph-metric-label">Resolvidas</p><p class="ph-metric-value" style="color:#3B6D11;">11</p></div>
+          <div class="ph-metric"><p class="ph-metric-label">Circuit breaker</p><p class="ph-metric-value" style="color:#854F0B;">2</p></div>
+          <div class="ph-metric"><p class="ph-metric-label">Intervenção</p><p class="ph-metric-value">1</p></div>
+        </div>
+        <p class="ph-label">Eventos recentes</p>
+        <div class="ph-event">
+          <div class="ph-event-dot" style="background:#A32D2D;"></div>
+          <div><p class="ph-event-main">Falha — db-prod-01 <span class="ph-badge" style="background:#FCEBEB;color:#A32D2D;">crítico</span></p><p class="ph-event-sub">Há 4 min · failover ativado</p></div>
+        </div>
+        <div class="ph-event">
+          <div class="ph-event-dot" style="background:#854F0B;"></div>
+          <div><p class="ph-event-main">Timeout — db-replica-02</p><p class="ph-event-sub">Há 12 min · retry em curso</p></div>
+        </div>
+        <div class="ph-event" style="border:none;">
+          <div class="ph-event-dot" style="background:#3B6D11;"></div>
+          <div><p class="ph-event-main">Restaurada — db-analytics</p><p class="ph-event-sub">Há 28 min · 3 tentativas</p></div>
+        </div>
+      </div>
+      <div class="ph-nav">
+        <div class="ph-nav-item" style="color:#534AB7;">⊞<span>Início</span></div>
+        <div class="ph-nav-item">⚠<span>Falhas</span></div>
+        <div class="ph-nav-item">⚙<span>Config</span></div>
+        <div class="ph-nav-item">↗<span>Relatórios</span></div>
+      </div>
+    </div>
+
+    <!-- Detalhes -->
+    <div class="phone">
+      <div class="phone-bar"><span>9:41</span><span class="phone-bar-title">Nexus</span><span>▲</span></div>
+      <div class="phone-content">
+        <div class="ph-header"><p class="ph-title">← Detalhes da falha</p><p class="ph-sub">db-prod-01 · Há 4 min</p></div>
+        <div style="display:flex;gap:4px;margin-bottom:8px;">
+          <span class="ph-badge" style="background:#FCEBEB;color:#A32D2D;">crítico</span>
+          <span class="ph-badge" style="background:#EEEDFE;color:#3C3489;">failover ativo</span>
+        </div>
+        <p class="ph-label">Diagnóstico da IA</p>
+        <div class="ph-row"><span class="ph-row-key">Causa</span><span class="ph-row-val">Sobrecarga de conexões</span></div>
+        <div class="ph-row"><span class="ph-row-key">Estratégia</span><span class="ph-row-val">Failover → db-prod-02</span></div>
+        <div class="ph-row"><span class="ph-row-key">Tentativas</span><span class="ph-row-val">3 (1s→2s→4s)</span></div>
+        <div class="ph-row"><span class="ph-row-key">Tempo failover</span><span class="ph-row-val">7 segundos</span></div>
+        <div class="ph-row" style="border:none;"><span class="ph-row-key">Status</span><span class="ph-row-val" style="color:#854F0B;">Aguardando db-prod-01</span></div>
+        <div class="ph-log">
+          [09:37:04] Falha em db-prod-01<br>
+          [09:37:05] Retry 1 → 1s<br>
+          [09:37:07] Retry 2 → 2s<br>
+          [09:37:09] Circuit breaker ativado<br>
+          [09:37:09] Failover → db-prod-02 ✓
+        </div>
+      </div>
+      <div class="ph-nav">
+        <div class="ph-nav-item">⊞<span>Início</span></div>
+        <div class="ph-nav-item" style="color:#534AB7;">⚠<span>Falhas</span></div>
+        <div class="ph-nav-item">⚙<span>Config</span></div>
+        <div class="ph-nav-item">↗<span>Relatórios</span></div>
+      </div>
+    </div>
+
+    <!-- Config -->
+    <div class="phone">
+      <div class="phone-bar"><span>9:41</span><span class="phone-bar-title">Nexus</span><span>▲</span></div>
+      <div class="phone-content">
+        <div class="ph-header"><p class="ph-title">Configurar Nexus</p><p class="ph-sub">Estratégias e parâmetros</p></div>
+        <p class="ph-label">Estratégias</p>
+        <div style="border:1px solid #eee;border-radius:7px;padding:7px 9px;margin-bottom:5px;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:10px;font-weight:600;">Retry exponencial</span><span class="ph-badge" style="background:#E1F5EE;color:#085041;">ativo</span></div>
+          <p style="font-size:8px;color:#aaa;margin-top:2px;">5 tentativas · fator ×2</p>
+        </div>
+        <div style="border:1px solid #eee;border-radius:7px;padding:7px 9px;margin-bottom:5px;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:10px;font-weight:600;">Circuit breaker</span><span class="ph-badge" style="background:#E1F5EE;color:#085041;">ativo</span></div>
+          <p style="font-size:8px;color:#aaa;margin-top:2px;">3 falhas em 60s</p>
+        </div>
+        <div style="border:1px solid #eee;border-radius:7px;padding:7px 9px;margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:10px;font-weight:600;">Failover automático</span><span class="ph-badge" style="background:#E1F5EE;color:#085041;">ativo</span></div>
+          <p style="font-size:8px;color:#aaa;margin-top:2px;">Banco secundário: db-prod-02</p>
+        </div>
+        <p class="ph-label">Alertas</p>
+        <div class="ph-row"><span class="ph-row-key">Push notifications</span><span class="ph-row-val" style="color:#3B6D11;">Ativo</span></div>
+        <div class="ph-row" style="border:none;"><span class="ph-row-key">Limiar crítico</span><span class="ph-row-val">5+ falhas/hora</span></div>
+      </div>
+      <div class="ph-nav">
+        <div class="ph-nav-item">⊞<span>Início</span></div>
+        <div class="ph-nav-item">⚠<span>Falhas</span></div>
+        <div class="ph-nav-item" style="color:#534AB7;">⚙<span>Config</span></div>
+        <div class="ph-nav-item">↗<span>Relatórios</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESENVOLVEDOR -->
+  <div id="tab-dev" class="phones-row" style="display:none;">
+    <!-- Status -->
+    <div class="phone">
+      <div class="phone-bar"><span>9:41</span><span class="phone-bar-title">Nexus</span><span>▲</span></div>
+      <div class="phone-content">
+        <div class="ph-header"><p class="ph-title">Status de integração</p><p class="ph-sub">Ambiente de produção</p></div>
+        <div class="ph-chip" style="background:#E1F5EE;">
+          <div class="ph-dot" style="background:#1D9E75;"></div>
+          <span style="color:#085041;">Nexus v2.1.4 — ativo</span>
+        </div>
+        <div class="ph-metrics">
+          <div class="ph-metric"><p class="ph-metric-label">Uptime</p><p class="ph-metric-value" style="color:#3B6D11;font-size:13px;">99.8%</p></div>
+          <div class="ph-metric"><p class="ph-metric-label">Latência</p><p class="ph-metric-value" style="font-size:13px;">18ms</p></div>
+          <div class="ph-metric"><p class="ph-metric-label">Eventos</p><p class="ph-metric-value" style="font-size:13px;">142</p></div>
+          <div class="ph-metric"><p class="ph-metric-label">Intervenções</p><p class="ph-metric-value" style="color:#854F0B;font-size:13px;">2</p></div>
+        </div>
+        <p class="ph-label">Conexões</p>
+        <div class="ph-row"><span class="ph-row-key">db-prod-01</span><span class="ph-row-val" style="color:#3B6D11;">saudável</span></div>
+        <div class="ph-row"><span class="ph-row-key">db-prod-02</span><span class="ph-row-val" style="color:#854F0B;">failover ativo</span></div>
+        <div class="ph-row"><span class="ph-row-key">db-analytics</span><span class="ph-row-val" style="color:#3B6D11;">saudável</span></div>
+        <div class="ph-row" style="border:none;"><span class="ph-row-key">db-replica-02</span><span class="ph-row-val" style="color:#A32D2D;">circuit breaker</span></div>
+      </div>
+      <div class="ph-nav">
+        <div class="ph-nav-item" style="color:#1D9E75;">⬡<span>Status</span></div>
+        <div class="ph-nav-item">◎<span>Monitor</span></div>
+        <div class="ph-nav-item">⚗<span>Simulador</span></div>
+        <div class="ph-nav-item">≡<span>Logs</span></div>
+      </div>
+    </div>
+
+    <!-- Monitor -->
+    <div class="phone">
+      <div class="phone-bar"><span>9:41</span><span class="phone-bar-title">Nexus</span><span>▲</span></div>
+      <div class="phone-content">
+        <div class="ph-header"><p class="ph-title">Monitor de estratégias</p><p class="ph-sub">Últimas 24h</p></div>
+        <p class="ph-label">Eficiência</p>
+        <div style="margin-bottom:5px;">
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:#aaa;margin-bottom:2px;"><span>Retry exponencial</span><span>91%</span></div>
+          <div class="ph-progress"><div class="ph-progress-fill" style="width:91%;background:#1D9E75;"></div></div>
+        </div>
+        <div style="margin-bottom:5px;">
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:#aaa;margin-bottom:2px;"><span>Circuit breaker</span><span>78%</span></div>
+          <div class="ph-progress"><div class="ph-progress-fill" style="width:78%;background:#854F0B;"></div></div>
+        </div>
+        <div style="margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;font-size:8px;color:#aaa;margin-bottom:2px;"><span>Failover</span><span>100%</span></div>
+          <div class="ph-progress"><div class="ph-progress-fill" style="width:100%;background:#3B6D11;"></div></div>
+        </div>
+        <p class="ph-label">Ativações hoje</p>
+        <div class="ph-row"><span class="ph-row-key">Retry exponencial</span><span class="ph-row-val">47x</span></div>
+        <div class="ph-row"><span class="ph-row-key">Circuit breaker</span><span class="ph-row-val" style="color:#854F0B;">aberto 8min</span></div>
+        <div class="ph-row" style="border:none;"><span class="ph-row-key">Failover</span><span class="ph-row-val">1x</span></div>
+        <div style="background:#E1F5EE;border-radius:6px;padding:6px 8px;margin-top:8px;">
+          <p style="font-size:8px;color:#085041;line-height:1.6;">💡 Nexus sugere aumentar o limiar do circuit breaker em db-replica-02.</p>
+        </div>
+      </div>
+      <div class="ph-nav">
+        <div class="ph-nav-item">⬡<span>Status</span></div>
+        <div class="ph-nav-item" style="color:#1D9E75;">◎<span>Monitor</span></div>
+        <div class="ph-nav-item">⚗<span>Simulador</span></div>
+        <div class="ph-nav-item">≡<span>Logs</span></div>
+      </div>
+    </div>
+
+    <!-- Logs -->
+    <div class="phone">
+      <div class="phone-bar"><span>9:41</span><span class="phone-bar-title">Nexus</span><span>▲</span></div>
+      <div class="phone-content">
+        <div class="ph-header"><p class="ph-title">Logs de decisão</p><p class="ph-sub">Por que a IA escolheu X</p></div>
+        <div style="border:1px solid #eee;border-radius:7px;padding:7px 9px;margin-bottom:5px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:9px;font-weight:600;">Failover — db-prod-01</span><span class="ph-badge" style="background:#FCEBEB;color:#A32D2D;">crítico</span></div>
+          <p style="font-size:8px;color:#666;line-height:1.6;">3 falhas em 10s + histórico de sobrecarga. Prob. de retry: 8%. Failover ativado.</p>
+        </div>
+        <div style="border:1px solid #eee;border-radius:7px;padding:7px 9px;margin-bottom:5px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:9px;font-weight:600;">Circuit breaker — db-replica</span><span class="ph-badge" style="background:#FAEEDA;color:#854F0B;">atenção</span></div>
+          <p style="font-size:8px;color:#666;line-height:1.6;">Timeout crescente nas últimas 2h. Tempo aberto estendido de 30s para 90s.</p>
+        </div>
+        <div style="border:1px solid #eee;border-radius:7px;padding:7px 9px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:9px;font-weight:600;">Retry ajustado — db-analytics</span><span class="ph-badge" style="background:#EAF3DE;color:#3B6D11;">ok</span></div>
+          <p style="font-size:8px;color:#666;line-height:1.6;">Fator reduzido de ×2 para ×1.5. 94% de sucesso na 1ª tentativa.</p>
+        </div>
+      </div>
+      <div class="ph-nav">
+        <div class="ph-nav-item">⬡<span>Status</span></div>
+        <div class="ph-nav-item">◎<span>Monitor</span></div>
+        <div class="ph-nav-item">⚗<span>Simulador</span></div>
+        <div class="ph-nav-item" style="color:#1D9E75;">≡<span>Logs</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USUÁRIO FINAL -->
+  <div id="tab-user" class="phones-row" style="display:none;">
+    <!-- Aviso -->
+    <div class="phone">
+      <div class="phone-bar"><span>9:41</span><span class="phone-bar-title">MeuApp</span><span>▲</span></div>
+      <div class="phone-content" style="display:flex;flex-direction:column;align-items:center;padding-top:20px;text-align:center;">
+        <div style="font-size:36px;margin-bottom:10px;">⚠️</div>
+        <p style="font-size:13px;font-weight:600;margin-bottom:6px;">Estamos com lentidão</p>
+        <p style="font-size:10px;color:#666;line-height:1.6;margin-bottom:16px;">Identificamos uma instabilidade e já estamos trabalhando para resolver. Você não precisa fazer nada.</p>
+        <div style="background:#f5f5f3;border-radius:8px;padding:10px;width:100%;text-align:left;margin-bottom:12px;">
+          <p style="font-size:9px;font-weight:600;margin-bottom:5px;">O que pode ser afetado?</p>
+          <p style="font-size:8px;color:#666;line-height:1.8;">· Carregamento pode demorar mais<br>· Salvamento automático pode atrasar<br>· Suas ações não serão perdidas</p>
+        </div>
+        <div style="width:100%;padding:8px;background:#f0f0ec;border-radius:7px;font-size:10px;font-weight:500;text-align:center;">Acompanhar →</div>
+      </div>
+    </div>
+
+    <!-- Reconectando -->
+    <div class="phone">
+      <div class="phone-bar"><span>9:41</span><span class="phone-bar-title">MeuApp</span><span>▲</span></div>
+      <div class="phone-content" style="padding-top:20px;">
+        <div style="text-align:center;margin-bottom:16px;">
+          <div style="font-size:32px;margin-bottom:8px;">🔄</div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px;">Tentando reconectar</p>
+          <p style="font-size:9px;color:#666;">Nosso sistema está trabalhando automaticamente.</p>
+        </div>
+        <div class="ph-step">
+          <div class="ph-step-dot" style="background:#3B6D11;"></div>
+          <div><p class="ph-step-label">Instabilidade detectada</p><p class="ph-step-sub">Automaticamente</p></div>
+        </div>
+        <div class="ph-step">
+          <div class="ph-step-dot" style="background:#3B6D11;"></div>
+          <div><p class="ph-step-label">Primeira tentativa</p><p class="ph-step-sub">Há 12 segundos</p></div>
+        </div>
+        <div class="ph-step">
+          <div class="ph-step-dot" style="background:#FAC775;border:1.5px solid #BA7517;"></div>
+          <div><p class="ph-step-label" style="color:#854F0B;">Segunda tentativa...</p><p class="ph-step-sub">Aguardando</p></div>
+        </div>
+        <div class="ph-step">
+          <div class="ph-step-dot" style="background:#ddd;"></div>
+          <div><p class="ph-step-label" style="color:#aaa;">Conexão restaurada</p><p class="ph-step-sub">Em breve</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resolvido -->
+    <div class="phone">
+      <div class="phone-bar"><span>9:41</span><span class="phone-bar-title">MeuApp</span><span>▲</span></div>
+      <div class="phone-content" style="display:flex;flex-direction:column;align-items:center;padding-top:24px;text-align:center;">
+        <div style="font-size:36px;margin-bottom:10px;">✅</div>
+        <p style="font-size:13px;font-weight:600;margin-bottom:6px;">Tudo resolvido!</p>
+        <p style="font-size:10px;color:#666;line-height:1.6;margin-bottom:14px;">A instabilidade foi resolvida automaticamente. Continue de onde parou.</p>
+        <div style="background:#f5f5f3;border-radius:8px;padding:10px;width:100%;text-align:left;margin-bottom:12px;">
+          <p style="font-size:9px;font-weight:600;margin-bottom:6px;">Resumo</p>
+          <div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:3px;"><span style="color:#666;">Tempo de instabilidade</span><span style="font-weight:500;">43 segundos</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:3px;"><span style="color:#666;">Resolvido por</span><span style="font-weight:500;">Sistema automático</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:9px;"><span style="color:#666;">Seus dados</span><span style="font-weight:500;color:#3B6D11;">Preservados ✓</span></div>
+        </div>
+        <div style="width:100%;padding:8px;background:#EAF3DE;border-radius:7px;font-size:10px;font-weight:600;color:#3B6D11;text-align:center;">Continuar usando o app →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARQUITETURA -->
+<section id="arquitetura" class="section">
+  <h2 class="section-title">Arquitetura da IA</h2>
+  <p class="section-sub">Quatro módulos internos que trabalham juntos para garantir a melhor resposta a cada falha.</p>
+  <div class="arch-grid">
+    <div class="arch-card">
+      <p class="arch-num">MÓDULO 01</p>
+      <p class="arch-title">Detector de falhas</p>
+      <p class="arch-desc">Monitora conexões em tempo real e classifica cada falha por tipo e severidade, criando o contexto necessário para a decisão.</p>
+    </div>
+    <div class="arch-card">
+      <p class="arch-num">MÓDULO 02</p>
+      <p class="arch-title">Seletor de estratégia</p>
+      <p class="arch-desc">Calcula a probabilidade de sucesso de cada estratégia com base no contexto e histórico, escolhendo a melhor opção.</p>
+    </div>
+    <div class="arch-card">
+      <p class="arch-num">MÓDULO 03</p>
+      <p class="arch-title">Aprendizado contínuo</p>
+      <p class="arch-desc">Registra o resultado de cada decisão e ajusta os parâmetros automaticamente para otimizar respostas futuras.</p>
+    </div>
+    <div class="arch-card">
+      <p class="arch-num">MÓDULO 04</p>
+      <p class="arch-title">Comunicador de status</p>
+      <p class="arch-desc">Adapta a linguagem para cada perfil — logs técnicos para DBAs, explicações claras para devs, mensagens humanas para usuários.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-logo">Nexus</p>
+  <p class="footer-sub">Projeto acadêmico · Design de IA Mobile · 2026</p>
+  <div class="footer-tags">
+    <span class="footer-tag">UX Design</span>
+    <span class="footer-tag">Arquitetura da Informação</span>
+    <span class="footer-tag">Prototipação</span>
+    <span class="footer-tag">Inteligência Artificial</span>
+  </div>
+</footer>
+
+<script>
+function showTab(id, btn) {
+  ['dba','dev','user'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = 'none';
+  });
+  document.getElementById('tab-'+id).style.display = 'flex';
+  document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn');
+  if(id === 'dba') btn.className = 'tab-btn active';
+  if(id === 'dev') btn.className = 'tab-btn active-teal';
+  if(id === 'user') btn.className = 'tab-btn active-coral';
+}
+</script>
+
+</body>
+</html>
